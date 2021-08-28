@@ -10,3 +10,8 @@ Route::post('/login/finish', [AuthController::class, 'LoginFinish']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['middleware' => 'auth:sanctum'], function() {
+    Route::get('/contestants', [AuthController::class, 'fetchAllContestants'])->middleware('onetime');
+    Route::post('/submit/vote', [AuthController::class, 'submitVote']);
+});
